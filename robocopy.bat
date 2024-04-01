@@ -1,6 +1,5 @@
-# powershell -Command "Expand-Archive -Path 'python.zip' -DestinationPath 'InteractiveHtmlBom' -Force"
-
- robocopy  .\python .\InteractiveHtmlBom /e 
- rmdir /s/q  python
-
-# del extract_zip.bat
+@echo off
+set "src=%~dp0python"
+set "dst=%~dp0InteractiveHtmlBom\InteractiveHtmlBom"
+robocopy "%src%" "%dst%" /e
+pause

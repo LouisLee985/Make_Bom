@@ -1,6 +1,6 @@
 Install [Python](https://www.python.org/downloads)
 
-```py
+```python
 pip install wxpython
 ```
 

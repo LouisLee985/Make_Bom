@@ -1,3 +1,5 @@
+For Normal EasyEDA Windows
+<br>
 Install [Python](https://www.python.org/downloads)
 
 ```shell

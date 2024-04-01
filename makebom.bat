@@ -4,7 +4,7 @@ set FilePath=%~dp0
 
 set option=--dark-mode --name-format %%f --dest-dir ""
 
-set pyFilePath=%FilePath%generate_interactive_bom.py
+set pyFilePath=%FilePath%InteractiveHtmlBom\InteractiveHtmlBom\generate_interactive_bom.py
 
 :_convert_
 if not defined pathofEDASourceFile (

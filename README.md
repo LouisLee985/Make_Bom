@@ -8,7 +8,7 @@
 
 
 >>```shell
-pip install wxpython
+>>pip install wxpython
 >>```
 
 >>3.

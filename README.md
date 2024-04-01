@@ -2,14 +2,14 @@
 
 <br>
 
->>1.Install [Python](https://www.python.org/downloads)
+>>Install [Python](https://www.python.org/downloads)
 <br>
 
->>2.
 
-```shell
+
+>>```shell
 pip install wxpython
-```
+>>```
 
 >>3.
 ```shell

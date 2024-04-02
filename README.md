@@ -1,5 +1,5 @@
 ### How to use [InteractiveHtmlBom](https://github.com/openscopeproject/InteractiveHtmlBom/tree/432e702d068a538683c55abd345c5756456e376b)
-For Normal EasyEDA Windows
+For EasyEDA Std Edition Windows
 <br>
 
 * Install [Python](https://www.python.org/downloads)
@@ -14,4 +14,4 @@ For Normal EasyEDA Windows
 
 * Double click [rightclick.bat]()
 
-* Right click&emsp; *.json from normal EasyEDA,&emsp;open with makebom.bat
+* Right click&emsp; *.json from EasyEDA Std Edition,&emsp;open with makebom.bat

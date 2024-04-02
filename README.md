@@ -1,7 +1,7 @@
 ### For Normal EasyEDA Windows
 <br>
 
-Install [Python](https://www.python.org/downloads)
+* Install [Python](https://www.python.org/downloads)
 <br>
 
 > ```shell
@@ -12,5 +12,5 @@ Install [Python](https://www.python.org/downloads)
 > ```
 
 * Double click [rightclick.bat]()
-<br>
+
 * Right click&emsp; *.json from normal EasyEDA,&emsp;open with makebom.bat

@@ -1,4 +1,5 @@
 ### For Normal EasyEDA Windows
+How to use [InteractiveHtmlBom](https://github.com/openscopeproject/InteractiveHtmlBom/tree/432e702d068a538683c55abd345c5756456e376b)
 <br>
 
 * Install [Python](https://www.python.org/downloads)

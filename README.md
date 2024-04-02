@@ -11,4 +11,4 @@
 >> git clone --recurse-submodules https://github.com/LouisLee985/Make_Bom.git
 >> ```
 
-Double click rightclick.bat
+Double click [rightclick.bat]()

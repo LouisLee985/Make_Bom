@@ -12,3 +12,5 @@ Install [Python](https://www.python.org/downloads)
 > ```
 
 Double click [rightclick.bat]()
+<br>
+Right click *.json from normal EasyEDA, open with makebom.bat

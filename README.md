@@ -11,6 +11,6 @@ Install [Python](https://www.python.org/downloads)
 > git clone --recurse-submodules https://github.com/LouisLee985/Make_Bom.git
 > ```
 
-Double click [rightclick.bat]()
+* Double click [rightclick.bat]()
 <br>
-Right click&emsp; *.json from normal EasyEDA,&emsp;open with makebom.bat
+* Right click&emsp; *.json from normal EasyEDA,&emsp;open with makebom.bat

@@ -16,6 +16,7 @@ For [EasyEDA Std Edition](https://easyeda.com/) Windows
 
 * Right click&emsp; *.json from EasyEDA Std Edition,&emsp;open with makebom.bat
 <br>
+
 * Perhaps
 > ```shell
 > $Env:http_proxy="http://127.0.0.1:10808"

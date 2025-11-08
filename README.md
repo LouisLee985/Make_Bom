@@ -22,5 +22,5 @@ For [EasyEDA Std Edition](https://easyeda.com/) Windows
 > $Env:http_proxy="http://127.0.0.1:10808"
 > ```
 > ```shell
-> $Env:http_proxy="http://127.0.0.1:10808"
+> $Env:https_proxy="http://127.0.0.1:10808"
 > ```

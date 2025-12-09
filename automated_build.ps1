@@ -1,11 +1,11 @@
 <#
 .SYNOPSIS
-ÍêÕûµÄ×Ô¶¯»¯¹¹½¨½Å±¾£¬ÓÃÓÚ½« InteractiveHtmlBom ´ò°üÎª CLI Ä£Ê½µÄ¶ÀÁ¢ EXE¡£
-¸Ã½Å±¾°üº¬ÁËËùÓĞĞŞ¸´£¬²¢ÇĞ»»µ½¸ü¿É¿¿µÄ --onedir Ä£Ê½¡£
+å®Œæ•´çš„è‡ªåŠ¨åŒ–æ„å»ºè„šæœ¬ï¼Œç”¨äºå°† InteractiveHtmlBom æ‰“åŒ…ä¸º CLI æ¨¡å¼çš„ç‹¬ç«‹ EXEã€‚
+è¯¥è„šæœ¬åŒ…å«äº†æ‰€æœ‰ä¿®å¤ï¼Œå¹¶åˆ‡æ¢åˆ°æ›´å¯é çš„ --onedir æ¨¡å¼ã€‚
 #>
 
 # -----------------------------------------------------------------------------
-# 1. ÅäÖÃºÍ³õÊ¼»¯
+# 1. é…ç½®å’Œåˆå§‹åŒ–
 # -----------------------------------------------------------------------------
 
 $ErrorActionPreference = "Stop"
@@ -15,7 +15,7 @@ function exit_script {
     param([string]$message)
     Write-Host ""
     Write-Host "=======================================================" -ForegroundColor Red
-    Write-Host "? ´íÎó: $message" -ForegroundColor Red
+    Write-Host "? é”™è¯¯: $message" -ForegroundColor Red
     Write-Host "=======================================================" -ForegroundColor Red
     $Global:ErrorOccurred = $true
     exit 1
@@ -26,7 +26,7 @@ function restore_file {
     if (Test-Path $backupFile) {
         Copy-Item $backupFile $targetFile -Force
         Remove-Item $backupFile
-        Write-Host "   -> $targetFile ÒÑ»Ö¸´."
+        Write-Host "   -> $targetFile å·²æ¢å¤."
     }
 }
 
@@ -40,47 +40,47 @@ function backup_and_modify_file {
     return $null
 }
 
-# ĞèÒªĞŞ¸ÄµÄÔ´ÎÄ¼şÁĞ±í
+# éœ€è¦ä¿®æ”¹çš„æºæ–‡ä»¶åˆ—è¡¨
 $SourceFilesToModify = @(
     "InteractiveHtmlBom\dialog\settings_dialog.py",
     "InteractiveHtmlBom\dialog\__init__.py",
     "InteractiveHtmlBom\core\config.py",
-    "InteractiveHtmlBom\__init__.py", # <-- ĞÂÔö»òÈ·ÈÏ
+    "InteractiveHtmlBom\__init__.py", # <-- æ–°å¢æˆ–ç¡®è®¤
     "InteractiveHtmlBom\core\ibom.py",
     "InteractiveHtmlBom\generate_interactive_bom.py"
     "InteractiveHtmlBom\dialog\dialog_base.py"
 )
 
-# ±¸·İËùÓĞÎÄ¼şµÄ¹şÏ£±í
+# å¤‡ä»½æ‰€æœ‰æ–‡ä»¶çš„å“ˆå¸Œè¡¨
 $BackupFiles = @{}
 
 # -----------------------------------------------------------------------------
-# 2. Ô´´úÂëĞŞ¸Ä
+# 2. æºä»£ç ä¿®æ”¹
 # -----------------------------------------------------------------------------
 
 try {
-    Write-Host "1. ÕıÔÚ±¸·İÔ´´úÂëÎÄ¼ş..."
+    Write-Host "1. æ­£åœ¨å¤‡ä»½æºä»£ç æ–‡ä»¶..."
     foreach ($file in $SourceFilesToModify) {
         $backup = backup_and_modify_file $file
         if ($backup) {
             $BackupFiles[$file] = $backup
         }
     }
-    Write-Host "±¸·İÍê³É."
+    Write-Host "å¤‡ä»½å®Œæˆ."
     
     Write-Host ""
-    Write-Host "2. ÕıÔÚĞŞ¸ÄÔ´´úÂëÎÄ¼şÒÔÏû³ı wx ºÍ pcbnew ÒÀÀµ..."
+    Write-Host "2. æ­£åœ¨ä¿®æ”¹æºä»£ç æ–‡ä»¶ä»¥æ¶ˆé™¤ wx å’Œ pcbnew ä¾èµ–..."
 
     # -------------------------------------------------------------------------
-    # 2.1. Õë¶Ô settings_dialog.py µÄĞŞ¸Ä£º×®ÀàºÍÒÀÀµ
+    # 2.1. é’ˆå¯¹ settings_dialog.py çš„ä¿®æ”¹ï¼šæ¡©ç±»å’Œä¾èµ–
     # -------------------------------------------------------------------------
     # -------------------------------------------------------------------------
-    # 2.1. Õë¶Ô settings_dialog.py µÄĞŞ¸Ä£ºÉú³ÉÍêÕûµÄ CLI ×®ÎÄ¼ş
+    # 2.1. é’ˆå¯¹ settings_dialog.py çš„ä¿®æ”¹ï¼šç”Ÿæˆå®Œæ•´çš„ CLI æ¡©æ–‡ä»¶
     # -------------------------------------------------------------------------
     $SettingsDialogFile = "InteractiveHtmlBom\dialog\settings_dialog.py"
-    Write-Host "   -> ĞŞÕı $SettingsDialogFile (Éú³ÉÍêÕû CLI ×®ÎÄ¼ş)..."
+    Write-Host "   -> ä¿®æ­£ $SettingsDialogFile (ç”Ÿæˆå®Œæ•´ CLI æ¡©æ–‡ä»¶)..."
     
-    # ¶¨ÒåÍêÕûµÄ CLI ×®»¯´úÂëÄÚÈİ
+    # å®šä¹‰å®Œæ•´çš„ CLI æ¡©åŒ–ä»£ç å†…å®¹
     $StubContent = @"
 # [CLI FINAL FIX] This file is a complete STUB for CLI operation.
 # It eliminates all dependencies on wxPython GUI library.
@@ -114,13 +114,13 @@ class SettingsDialog:
                  file_name_format_hint, version):
         self.config_save_func = config_save_func
         self.version = version
-        # ×®»¯ panel ¶ÔÏó
+        # æ¡©åŒ– panel å¯¹è±¡
         self.panel = SettingsDialogPanel(
              None, extra_data_func, extra_data_wildcard, config_save_func,
              file_name_format_hint)
 
     def ShowModal(self):
-        # CLI Ä£Ê½ÏÂ£¬¼Ù¶¨ÓÃ»§×ÜÊÇÑ¡Ôñ¡°È·¶¨¡± (Ä£Äâ wx.ID_OK = 5100)
+        # CLI æ¨¡å¼ä¸‹ï¼Œå‡å®šç”¨æˆ·æ€»æ˜¯é€‰æ‹©â€œç¡®å®šâ€ (æ¨¡æ‹Ÿ wx.ID_OK = 5100)
         return 5100
 
     def SetSizeHints(self, sz1, sz2):
@@ -177,7 +177,7 @@ class GeneralSettingsPanel:
     def OnNameFormatHintClick(self, event):
         print(f"File name format help: {self.file_name_format_hint}")
 
-    # ×®»¯ËùÓĞ wx ÊÂ¼ş´¦Àíº¯Êı
+    # æ¡©åŒ–æ‰€æœ‰ wx äº‹ä»¶å¤„ç†å‡½æ•°
     def OnComponentSortOrderUp(self, event):
         pass
     def OnComponentSortOrderDown(self, event):
@@ -204,12 +204,12 @@ class FieldsPanel:
         self.group_fields = []
         self.extra_data_func = extra_data_func
         self.extra_field_data = None
-        self.extra_data_file = '' # ×®»¯ÎÄ¼şÂ·¾¶
+        self.extra_data_file = '' # æ¡©åŒ–æ–‡ä»¶è·¯å¾„
 
     def set_file_picker_wildcard(self, extra_data_wildcard):
         pass
 
-    # ×®»¯ËùÓĞ wx ÊÂ¼ş´¦Àíº¯ÊıºÍÄÚ²¿·½·¨
+    # æ¡©åŒ–æ‰€æœ‰ wx äº‹ä»¶å¤„ç†å‡½æ•°å’Œå†…éƒ¨æ–¹æ³•
     def _swapRows(self, a, b):
         pass
     def OnGridCellClicked(self, event):
@@ -228,7 +228,7 @@ class FieldsPanel:
 
         self.extra_field_data = None
         try:
-            # ¼ò»¯µ÷ÓÃ
+            # ç®€åŒ–è°ƒç”¨
             self.extra_field_data = self.extra_data_func(extra_data_file, True) 
         except Exception as e:
             pop_error(
@@ -258,140 +258,140 @@ class FieldsPanel:
             s for s in self.group_fields if s in self.show_fields
         ]
 
-# µ¼³ö¹©Íâ²¿Ê¹ÓÃµÄ show_dialog º¯Êı
+# å¯¼å‡ºä¾›å¤–éƒ¨ä½¿ç”¨çš„ show_dialog å‡½æ•°
 def show_dialog(config, parser):
     return SettingsDialog(config.extra_data_func, config.extra_data_wildcard, 
                           config.save_config, config.file_name_format_hint, 
-                          config.version).ShowModal() == 5100 # 5100 Ä£Äâ wx.ID_OK
+                          config.version).ShowModal() == 5100 # 5100 æ¨¡æ‹Ÿ wx.ID_OK
 "@
 
-    # Ç¿ÖÆÒÔ UTF8 ±àÂë½«×®´úÂëĞ´ÈëÎÄ¼ş£¬¸²¸ÇÔ­Ê¼ÎÄ¼ş
+    # å¼ºåˆ¶ä»¥ UTF8 ç¼–ç å°†æ¡©ä»£ç å†™å…¥æ–‡ä»¶ï¼Œè¦†ç›–åŸå§‹æ–‡ä»¶
     $StubContent | Set-Content $SettingsDialogFile -Encoding UTF8
-    Write-Host "settings_dialog.py ÒÑ³É¹¦Éú³É CLI ×®ÎÄ¼ş¡£"
+    Write-Host "settings_dialog.py å·²æˆåŠŸç”Ÿæˆ CLI æ¡©æ–‡ä»¶ã€‚"
 
 
 
 
 
     # -------------------------------------------------------------------------
-    # 2.2. Õë¶Ô __init__.py µÄĞŞÕı£ºÒÆ³ı wx µ¼Èë (½â¾ö×îĞÂ´íÎó)
+    # 2.2. é’ˆå¯¹ __init__.py çš„ä¿®æ­£ï¼šç§»é™¤ wx å¯¼å…¥ (è§£å†³æœ€æ–°é”™è¯¯)
     # -------------------------------------------------------------------------
     $InitFile = "InteractiveHtmlBom\__init__.py"
-    Write-Host "   -> ĞŞÕı __init__.py (Ç¿ÖÆÖğĞĞ½ûÓÃ wx µ¼Èë)..."
+    Write-Host "   -> ä¿®æ­£ __init__.py (å¼ºåˆ¶é€è¡Œç¦ç”¨ wx å¯¼å…¥)..."
     
-    # 1. ÒÔ UTF8 ±àÂëÖğĞĞ¶ÁÈ¡ÎÄ¼şÄÚÈİ
+    # 1. ä»¥ UTF8 ç¼–ç é€è¡Œè¯»å–æ–‡ä»¶å†…å®¹
     $InitContentLines = Get-Content $InitFile -Encoding UTF8
     
-    # 2. ´´½¨Ò»¸öĞÂµÄÄÚÈİÊı×é
+    # 2. åˆ›å»ºä¸€ä¸ªæ–°çš„å†…å®¹æ•°ç»„
     $NewContentLines = @()
     
-    # 3. ÖğĞĞ¼ì²é²¢ĞŞ¸Ä
+    # 3. é€è¡Œæ£€æŸ¥å¹¶ä¿®æ”¹
     foreach ($line in $InitContentLines) {
-        # ¼ì²éĞĞÊÇ·ñ°üº¬ 'import wx' (²»Çø·Ö´óĞ¡Ğ´£¬ºöÂÔÇ°ºó¿Õ°×)
+        # æ£€æŸ¥è¡Œæ˜¯å¦åŒ…å« 'import wx' (ä¸åŒºåˆ†å¤§å°å†™ï¼Œå¿½ç•¥å‰åç©ºç™½)
         if ($line.Trim() -like "import wx*") {
-            $NewContentLines += "# [CLI FIX] " + $line # Ç¿ÖÆÌí¼Ó×¢ÊÍ
-            Write-Host "      [ÒÑ½ûÓÃ]: $line"
+            $NewContentLines += "# [CLI FIX] " + $line # å¼ºåˆ¶æ·»åŠ æ³¨é‡Š
+            Write-Host "      [å·²ç¦ç”¨]: $line"
         } else {
-            $NewContentLines += $line # ±£ÁôÆäËûĞĞ
+            $NewContentLines += $line # ä¿ç•™å…¶ä»–è¡Œ
         }
     }
     
-    # 4. ÒÔ UTF8 ±àÂë½«ĞŞ¸ÄºóµÄÄÚÈİĞ´ÈëÎÄ¼ş
+    # 4. ä»¥ UTF8 ç¼–ç å°†ä¿®æ”¹åçš„å†…å®¹å†™å…¥æ–‡ä»¶
     $NewContentLines | Set-Content $InitFile -Encoding UTF8
-    Write-Host "__init__.py ×îÖÕĞŞÕıÍê³É¡£"
+    Write-Host "__init__.py æœ€ç»ˆä¿®æ­£å®Œæˆã€‚"
 
 # -------------------------------------------------------------------------
-    # 2.4. Õë¶Ô dialog_base.py µÄĞŞÕı£ºÇ¿ÖÆ½ûÓÃ wx µ¼Èë (×îÖÕ GUI ÒÀÀµĞŞ¸´)
+    # 2.4. é’ˆå¯¹ dialog_base.py çš„ä¿®æ­£ï¼šå¼ºåˆ¶ç¦ç”¨ wx å¯¼å…¥ (æœ€ç»ˆ GUI ä¾èµ–ä¿®å¤)
     # -------------------------------------------------------------------------
     $DialogBaseFile = "InteractiveHtmlBom\dialog\dialog_base.py"
-    Write-Host "   -> ĞŞÕı dialog_base.py (ÓÃ¿Õ×®ÎÄ¼şÌæ»»)..."
+    Write-Host "   -> ä¿®æ­£ dialog_base.py (ç”¨ç©ºæ¡©æ–‡ä»¶æ›¿æ¢)..."
     
-    # Ìæ»»ÎªÒ»¸ö½ö°üº¬×¢ÊÍµÄ¿ÕÎÄ¼ş£¬³¹µ×Ïû³ıËùÓĞ wx ÒÀÀµºÍ IndentationError
+    # æ›¿æ¢ä¸ºä¸€ä¸ªä»…åŒ…å«æ³¨é‡Šçš„ç©ºæ–‡ä»¶ï¼Œå½»åº•æ¶ˆé™¤æ‰€æœ‰ wx ä¾èµ–å’Œ IndentationError
     $StubContent = @"
 # [CLI FINAL FIX] This file is stubbed out to eliminate all wx dependencies and IndentationError.
 # The functionality is replaced by a stub class in settings_dialog.py.
 "@
 
-    # Ç¿ÖÆÒÔ UTF8 ±àÂëĞ´ÈëĞÂÄÚÈİ
+    # å¼ºåˆ¶ä»¥ UTF8 ç¼–ç å†™å…¥æ–°å†…å®¹
     $StubContent | Set-Content $DialogBaseFile -Encoding UTF8
-    Write-Host "dialog_base.py ÒÑ±»Ìæ»»Îª CLI ×®ÎÄ¼ş£¬³¹µ×½â¾öËùÓĞ wx/Ëõ½øÎÊÌâ¡£"
+    Write-Host "dialog_base.py å·²è¢«æ›¿æ¢ä¸º CLI æ¡©æ–‡ä»¶ï¼Œå½»åº•è§£å†³æ‰€æœ‰ wx/ç¼©è¿›é—®é¢˜ã€‚"
 
     # -------------------------------------------------------------------------
-    # 2.3. Õë¶Ô config.py µÄĞŞÕı£º·â×° wx µ¼Èë
+    # 2.3. é’ˆå¯¹ config.py çš„ä¿®æ­£ï¼šå°è£… wx å¯¼å…¥
     # -------------------------------------------------------------------------
     $ConfigFile = "InteractiveHtmlBom\core\config.py"
-    Write-Host "   -> ĞŞÕı config.py (·â×° wx µ¼Èë)..."
+    Write-Host "   -> ä¿®æ­£ config.py (å°è£… wx å¯¼å…¥)..."
     $ConfigContent = Get-Content $ConfigFile -Raw
     
-    # ¶¨ÒåÄúÆÚÍûµÄÌæ»»¿é
+    # å®šä¹‰æ‚¨æœŸæœ›çš„æ›¿æ¢å—
     $ReplacementBlock = @"
 try:
     from wx import FileConfig
 except ImportError:
-    # È·±£ÔÚ wx È±Ê§Ê±£¬FileConfig ÈÔÈ»´æÔÚ£¬µ«ÉèÖÃÎª None »òÆäËûÕ¼Î»·û
+    # ç¡®ä¿åœ¨ wx ç¼ºå¤±æ—¶ï¼ŒFileConfig ä»ç„¶å­˜åœ¨ï¼Œä½†è®¾ç½®ä¸º None æˆ–å…¶ä»–å ä½ç¬¦
     FileConfig = None
 "@
 
-    # ¾«È·Ìæ»»¶¥²ãµÄ 'from wx import FileConfig' Óï¾ä
+    # ç²¾ç¡®æ›¿æ¢é¡¶å±‚çš„ 'from wx import FileConfig' è¯­å¥
     $ConfigContent = $ConfigContent -replace 'from wx import FileConfig', $ReplacementBlock
     
-    # Í³Ò»Ëõ½ø£¨¿ÉÑ¡µ«ÍÆ¼ö£©
+    # ç»Ÿä¸€ç¼©è¿›ï¼ˆå¯é€‰ä½†æ¨èï¼‰
     $ConfigContent = $ConfigContent -replace "`t", "    " 
 
     $ConfigContent | Set-Content $ConfigFile -Encoding UTF8
-    Write-Host "config.py µ¼Èë·â×°Íê³É."
+    Write-Host "config.py å¯¼å…¥å°è£…å®Œæˆ."
 
 # -------------------------------------------------------------------------
-    # 2.3. Õë¶Ô ibom.py µÄĞŞÕı£ºÇ¿ÖÆÖğĞĞ½ûÓÃ wx µ¼Èë (½â¾ö×îĞÂ´íÎó)
+    # 2.3. é’ˆå¯¹ ibom.py çš„ä¿®æ­£ï¼šå¼ºåˆ¶é€è¡Œç¦ç”¨ wx å¯¼å…¥ (è§£å†³æœ€æ–°é”™è¯¯)
     # -------------------------------------------------------------------------
     $IbomFile = "InteractiveHtmlBom\core\ibom.py"
-    Write-Host "   -> ĞŞÕı ibom.py (Ç¿ÖÆÖğĞĞ½ûÓÃ wx µ¼Èë)..."
+    Write-Host "   -> ä¿®æ­£ ibom.py (å¼ºåˆ¶é€è¡Œç¦ç”¨ wx å¯¼å…¥)..."
     
-    # 1. ÒÔ UTF8 ±àÂëÖğĞĞ¶ÁÈ¡ÎÄ¼şÄÚÈİ
+    # 1. ä»¥ UTF8 ç¼–ç é€è¡Œè¯»å–æ–‡ä»¶å†…å®¹
     $IbomContentLines = Get-Content $IbomFile -Encoding UTF8
     
-    # 2. ´´½¨Ò»¸öĞÂµÄÄÚÈİÊı×é
+    # 2. åˆ›å»ºä¸€ä¸ªæ–°çš„å†…å®¹æ•°ç»„
     $NewContentLines = @()
     
-    # 3. ÖğĞĞ¼ì²é²¢ĞŞ¸Ä
+    # 3. é€è¡Œæ£€æŸ¥å¹¶ä¿®æ”¹
     foreach ($line in $IbomContentLines) {
-        # ¼ì²éĞĞÊÇ·ñ°üº¬ 'import wx' (²»Çø·Ö´óĞ¡Ğ´£¬ºöÂÔÇ°ºó¿Õ°×)
+        # æ£€æŸ¥è¡Œæ˜¯å¦åŒ…å« 'import wx' (ä¸åŒºåˆ†å¤§å°å†™ï¼Œå¿½ç•¥å‰åç©ºç™½)
         if ($line.Trim() -like "import wx*") {
-            $NewContentLines += "# [CLI FIX] " + $line # Ç¿ÖÆÌí¼Ó×¢ÊÍ
-            Write-Host "      [ÒÑ½ûÓÃ]: $line"
+            $NewContentLines += "# [CLI FIX] " + $line # å¼ºåˆ¶æ·»åŠ æ³¨é‡Š
+            Write-Host "      [å·²ç¦ç”¨]: $line"
         } else {
-            $NewContentLines += $line # ±£ÁôÆäËûĞĞ
+            $NewContentLines += $line # ä¿ç•™å…¶ä»–è¡Œ
         }
     }
     
-    # 4. ÒÔ UTF8 ±àÂë½«ĞŞ¸ÄºóµÄÄÚÈİĞ´ÈëÎÄ¼ş
+    # 4. ä»¥ UTF8 ç¼–ç å°†ä¿®æ”¹åçš„å†…å®¹å†™å…¥æ–‡ä»¶
     $NewContentLines | Set-Content $IbomFile -Encoding UTF8
-    Write-Host "ibom.py ×îÖÕĞŞÕıÍê³É¡£"
+    Write-Host "ibom.py æœ€ç»ˆä¿®æ­£å®Œæˆã€‚"
 
     # -------------------------------------------------------------------------
-    # 2.4. Õë¶Ô generate_interactive_bom.py µÄĞŞ¸Ä (¹Ø¼üĞŞÕı)
+    # 2.4. é’ˆå¯¹ generate_interactive_bom.py çš„ä¿®æ”¹ (å…³é”®ä¿®æ­£)
     # -------------------------------------------------------------------------
     $GenBomFile = "InteractiveHtmlBom\generate_interactive_bom.py"
-    Write-Host "   -> ĞŞÕı generate_interactive_bom.py (¹Ø¼üĞŞÕı)..."
+    Write-Host "   -> ä¿®æ­£ generate_interactive_bom.py (å…³é”®ä¿®æ­£)..."
     $GenBomContent = Get-Content $GenBomFile -Raw
     
-    # 1. ĞŞ¸´ wx µ¼Èë
+    # 1. ä¿®å¤ wx å¯¼å…¥
     $GenBomContent = $GenBomContent -replace 'import wx', '# import wx'
     
-    # 2. ¹Ø¼üĞŞ¸´£ºÌæ»» main º¯Êı¿ªÍ·µ½µÚÒ»¸ö¾ø¶Ôµ¼ÈëÖ®¼äµÄËùÓĞ wx/GUI Æô¶¯´úÂë
+    # 2. å…³é”®ä¿®å¤ï¼šæ›¿æ¢ main å‡½æ•°å¼€å¤´åˆ°ç¬¬ä¸€ä¸ªç»å¯¹å¯¼å…¥ä¹‹é—´çš„æ‰€æœ‰ wx/GUI å¯åŠ¨ä»£ç 
     $replacementBlock = @"
 def main():
     create_wx_app = 'INTERACTIVE_HTML_BOM_NO_DISPLAY' not in os.environ
-    # ³¹µ×½ûÓÃ wx/GUI ÒÀÀµ
+    # å½»åº•ç¦ç”¨ wx/GUI ä¾èµ–
     pass
 
-    from InteractiveHtmlBom.core import ibom # È·±£Ìæ»»ºóµÄ´úÂëÊ¹ÓÃ¾ø¶Ôµ¼Èë
+    from InteractiveHtmlBom.core import ibom # ç¡®ä¿æ›¿æ¢åçš„ä»£ç ä½¿ç”¨ç»å¯¹å¯¼å…¥
 "@
-    # Ìæ»» main º¯Êı¿ªÍ·µ½ from .core import ibom Ö®¼äµÄËùÓĞÄÚÈİ (Ê¹ÓÃ¶àĞĞÄ£Ê½ (?smi) ½øĞĞ¾«È·Ìæ»»)
+    # æ›¿æ¢ main å‡½æ•°å¼€å¤´åˆ° from .core import ibom ä¹‹é—´çš„æ‰€æœ‰å†…å®¹ (ä½¿ç”¨å¤šè¡Œæ¨¡å¼ (?smi) è¿›è¡Œç²¾ç¡®æ›¿æ¢)
     $pattern = '(?smi)def main\(\):.*?from \.core import ibom'
     $GenBomContent = $GenBomContent -replace $pattern, $replacementBlock
 
-    # 3. ĞŞ¸´¶¥²ã´úÂëµÄËõ½øÎÊÌâ (½â¾öËùÓĞ IndentationError µÄ²ĞÁô)
+    # 3. ä¿®å¤é¡¶å±‚ä»£ç çš„ç¼©è¿›é—®é¢˜ (è§£å†³æ‰€æœ‰ IndentationError çš„æ®‹ç•™)
     $lines = $GenBomContent -split "`n"
     $cleanedLines = @()
     $foundDefOrClass = $false
@@ -403,30 +403,30 @@ def main():
             if ($trimmedLine -match '^def\s|^class\s') {
                 $foundDefOrClass = $true
             }
-            $cleanedLines += $trimmedLine # Ç¿ÖÆÎŞËõ½ø
+            $cleanedLines += $trimmedLine # å¼ºåˆ¶æ— ç¼©è¿›
         }
     }
     $GenBomContent = $cleanedLines -join "`n"
 
-    # 4. ¡¾ÖÕ¼«Â·¾¶ºÍµ¼ÈëÇåÀí¡¿½â¾ö NameError ºÍ _internal ´íÎó
-    Write-Host "   -> ÖÕ¼«Â·¾¶ÇåÀí£º½ûÓÃËùÓĞ sys.path ×¢ÈëºÍÏà¶Ôµ¼Èë..."
+    # 4. ã€ç»ˆæè·¯å¾„å’Œå¯¼å…¥æ¸…ç†ã€‘è§£å†³ NameError å’Œ _internal é”™è¯¯
+    Write-Host "   -> ç»ˆæè·¯å¾„æ¸…ç†ï¼šç¦ç”¨æ‰€æœ‰ sys.path æ³¨å…¥å’Œç›¸å¯¹å¯¼å…¥..."
     
-    # 4.1. ½ûÓÃÔ­Ê¼µÄÏà¶Ôµ¼ÈëĞŞ¸´´úÂë¿é (°üº¬ script_dir ¶¨ÒåºÍÊ¹ÓÃ)
+    # 4.1. ç¦ç”¨åŸå§‹çš„ç›¸å¯¹å¯¼å…¥ä¿®å¤ä»£ç å— (åŒ…å« script_dir å®šä¹‰å’Œä½¿ç”¨)
     $RelativeImportBlockPattern = '(?smi)script_dir = os\.path\.dirname\(os\.path\.abspath\(os\.path\.realpath\(__file__\)\)\).*?__import__\(__package__\)'
     $GenBomContent = $GenBomContent -replace $RelativeImportBlockPattern, '# Original Relative Import Block Disabled'
     
-    # 4.2. È·±£Çå³ıËùÓĞ²ĞÁôµÄ script_dir / __package__ ÒıÓÃ
+    # 4.2. ç¡®ä¿æ¸…é™¤æ‰€æœ‰æ®‹ç•™çš„ script_dir / __package__ å¼•ç”¨
     $GenBomContent = $GenBomContent -replace '^\s*__package__ = os\.path\.basename\(script_dir\)', '# __package__ Disabled'
     
-    # 4.3. ÒÆ³ıËùÓĞ²ĞÁôµÄ sys.path.insert µ÷ÓÃ
+    # 4.3. ç§»é™¤æ‰€æœ‰æ®‹ç•™çš„ sys.path.insert è°ƒç”¨
     $GenBomContent = $GenBomContent -replace '^\s*sys\.path\.insert\(0,.*', '# sys.path.insert(0, DISABLED)'
     
-    # 4.4. ÒÆ³ıËùÓĞÖ®Ç°³¢ÊÔĞŞ¸´µÄ PyInstaller Â·¾¶×¢Èë²ĞÁô¿é
+    # 4.4. ç§»é™¤æ‰€æœ‰ä¹‹å‰å°è¯•ä¿®å¤çš„ PyInstaller è·¯å¾„æ³¨å…¥æ®‹ç•™å—
     $GenBomContent = $GenBomContent -replace '^\s*# --- PyInstaller Module Fix ---.*?# --- PyInstaller Module Fix ---\s*', ''
 
-    # 5. ¡¾¾ø¶Ôµ¼ÈëÌæ»»¡¿È«ÃæÌæ»»ËùÓĞÏà¶Ôµ¼ÈëÎª¾ø¶Ôµ¼Èë (½â¾ö _internal ´íÎó)
-    Write-Host "   -> ÖÕ¼«µ¼ÈëĞŞ¸´£ºÈ«ÃæÌæ»»Ïà¶Ôµ¼ÈëÎª¾ø¶Ôµ¼Èë..."
-    $GenBomContent = $GenBomContent -replace 'from \.core import ibom', 'from InteractiveHtmlBom.core import ibom' # È·±£ main() º¯ÊıºóµÄµÚÒ»¸öµ¼ÈëÒ²±»ĞŞÕı
+    # 5. ã€ç»å¯¹å¯¼å…¥æ›¿æ¢ã€‘å…¨é¢æ›¿æ¢æ‰€æœ‰ç›¸å¯¹å¯¼å…¥ä¸ºç»å¯¹å¯¼å…¥ (è§£å†³ _internal é”™è¯¯)
+    Write-Host "   -> ç»ˆæå¯¼å…¥ä¿®å¤ï¼šå…¨é¢æ›¿æ¢ç›¸å¯¹å¯¼å…¥ä¸ºç»å¯¹å¯¼å…¥..."
+    $GenBomContent = $GenBomContent -replace 'from \.core import ibom', 'from InteractiveHtmlBom.core import ibom' # ç¡®ä¿ main() å‡½æ•°åçš„ç¬¬ä¸€ä¸ªå¯¼å…¥ä¹Ÿè¢«ä¿®æ­£
     $GenBomContent = $GenBomContent -replace 'from \.core\.config import Config', 'from InteractiveHtmlBom.core.config import Config'
     $GenBomContent = $GenBomContent -replace 'from \.ecad import get_parser_by_extension', 'from InteractiveHtmlBom.ecad import get_parser_by_extension'
     $GenBomContent = $GenBomContent -replace 'from \.version import version', 'from InteractiveHtmlBom.version import version'
@@ -434,66 +434,80 @@ def main():
     
     $GenBomContent | Set-Content $GenBomFile -Encoding UTF8
     
-    Write-Host "Ô´´úÂëĞŞÕıÍê³É."
+    Write-Host "æºä»£ç ä¿®æ­£å®Œæˆ."
 
     # -------------------------------------------------------------------------
-    # 3. ÇåÀí¾É¹¹½¨
+    # 3. æ¸…ç†æ—§æ„å»º
     # -------------------------------------------------------------------------
     Write-Host ""
-    Write-Host "3. ÕıÔÚÇåÀí¾É¹¹½¨Ä¿Â¼..."
+    Write-Host "3. æ­£åœ¨æ¸…ç†æ—§æ„å»ºç›®å½•..."
     Remove-Item -Path .\build -Recurse -Force -ErrorAction SilentlyContinue
     Remove-Item -Path .\dist -Recurse -Force -ErrorAction SilentlyContinue
     Remove-Item -Path .\generate_interactive_bom.spec -ErrorAction SilentlyContinue
-    Write-Host "ÇåÀíÍê³É."
+    Write-Host "æ¸…ç†å®Œæˆ."
 
     # -------------------------------------------------------------------------
-    # 4. Ö´ĞĞ PyInstaller ´ò°ü (ÇĞ»»µ½ --onedir Ä£Ê½)
+    # 4. æ‰§è¡Œ PyInstaller æ‰“åŒ… (åˆ‡æ¢åˆ° --onedir æ¨¡å¼)
     # -------------------------------------------------------------------------
-    Write-Host ""
-    Write-Host "4. ÕıÔÚÖ´ĞĞ PyInstaller ´ò°ü (Ê¹ÓÃ --onedir)..."
+Write-Host ""
+Write-Host "4. æ­£åœ¨æ‰§è¡Œ PyInstaller æ‰“åŒ… (ä½¿ç”¨ --onedir)..."
 
-    # Ê¹ÓÃÊı×é´«µİ²ÎÊı£¬ÇĞ»»µ½ --onedir Ä£Ê½£¬²¢Ìí¼ÓËùÓĞ hidden-import
-    $PyInstallerArgs = @(
-        "--noconfirm",
-        "--onedir", # ÇĞ»»Îªµ¥Ä¿Â¼Ä£Ê½
-        # ½â¾ö ModuleNotFoundError µÄ¹Ø¼ü
-        "--hidden-import", "InteractiveHtmlBom.core",
-        "--hidden-import", "InteractiveHtmlBom.ecad",
-        "--hidden-import", "InteractiveHtmlBom.errors",
-        "--hidden-import", "InteractiveHtmlBom.version",
-        "--hidden-import", "InteractiveHtmlBom.dialog",
-        # ¹Ø¼üĞŞÕı£ºÌí¼ÓÕû¸ö°üÄ¿Â¼µ½¿ÉÖ´ĞĞÎÄ¼ş¸ùÄ¿Â¼
-        "--add-data", "InteractiveHtmlBom;InteractiveHtmlBom",
-        # ÉèÖÃ EXE Ãû³Æ
-        "--name", "generate_interactive_bom",
-        # Ö÷½Å±¾ÎÄ¼ş
-        "InteractiveHtmlBom\generate_interactive_bom.py"
-    )
+# ä½¿ç”¨æ•°ç»„ä¼ é€’å‚æ•°
+$PyInstallerArgs = @(
+    "--noconfirm",
+    "--onedir", # åˆ‡æ¢ä¸ºå•ç›®å½•æ¨¡å¼
+    # è§£å†³ ModuleNotFoundError çš„å…³é”®
+    "--hidden-import", "InteractiveHtmlBom.core",
+    "--hidden-import", "InteractiveHtmlBom.ecad",
+    "--hidden-import", "InteractiveHtmlBom.errors",
+    "--hidden-import", "InteractiveHtmlBom.version",
+    "--hidden-import", "InteractiveHtmlBom.dialog",
+    # å…³é”®ä¿®æ­£ï¼šæ·»åŠ æ•´ä¸ªåŒ…ç›®å½•åˆ°å¯æ‰§è¡Œæ–‡ä»¶æ ¹ç›®å½•
+    "--add-data", "InteractiveHtmlBom;InteractiveHtmlBom",
+    # è®¾ç½® EXE åç§°
+    "--name", "generate_interactive_bom",
+    # ä¸»è„šæœ¬æ–‡ä»¶
+    "InteractiveHtmlBom\generate_interactive_bom.py"
+)
 
-    # Ê¹ÓÃ & ÔËËã·ûµ÷ÓÃ PyInstaller£¬È·±£Êı×é²ÎÊıÕıÈ·´«µİ
-    & pyinstaller $PyInstallerArgs
+# å…³é”®ä¿®å¤ï¼šä¸´æ—¶ä¿å­˜å½“å‰çš„ $ErrorActionPreference å¹¶å°†å…¶è®¾ç½®ä¸º SilentlyContinue
+$OriginalErrorActionPreference = $ErrorActionPreference
+$ErrorActionPreference = "SilentlyContinue"
 
-    if ($LASTEXITCODE -ne 0) {
-        exit_script "´ò°üÊ§°Ü£¬Çë¼ì²é PyInstaller ´íÎóÈÕÖ¾¡£"
-    }
-    Write-Host "´ò°ü³É¹¦Íê³É."
+try {
+    # æ‰§è¡Œ PyInstallerï¼Œå¹¶å°†å…¶è¾“å‡ºç®¡é“åŒ–ï¼Œä»¥ç¡®ä¿æ‰€æœ‰å†…å®¹éƒ½è¿›å…¥æ ‡å‡†è¾“å‡º
+    & pyinstaller $PyInstallerArgs *>&1
+} catch {
+    # å³ä½¿è®¾ç½®äº† SilentlyContinueï¼Œå¦‚æœä»æœ‰å¼‚å¸¸ï¼Œè¿™é‡Œä¼šæ•è·
+    Write-Host "PyInstaller æ‰§è¡Œä¸­ä»æ•è·åˆ°å¼‚å¸¸ï¼Œè¯·æ£€æŸ¥å…¶è¾“å‡ºã€‚" -ForegroundColor Red
+} finally {
+    # æ¢å¤åŸæ¥çš„ $ErrorActionPreference
+    $ErrorActionPreference = $OriginalErrorActionPreference
+}
+
+
+# æ£€æŸ¥ PyInstaller çš„é€€å‡ºä»£ç 
+if ($LASTEXITCODE -ne 0) {
+    exit_script "æ‰“åŒ…å¤±è´¥ï¼Œè¯·æ£€æŸ¥ PyInstaller é”™è¯¯æ—¥å¿—ã€‚"
+}
+Write-Host "æ‰“åŒ…æˆåŠŸå®Œæˆ."
 
 } catch {
-    exit_script "´ò°üÁ÷³ÌÖĞ·¢ÉúÎ´²¶»ñµÄÒì³£: $($_.Exception.Message)"
+    exit_script "æ‰“åŒ…æµç¨‹ä¸­å‘ç”Ÿæœªæ•è·çš„å¼‚å¸¸: $($_.Exception.Message)"
 } finally {
     Write-Host ""
-    Write-Host "5. ÕıÔÚ»Ö¸´Ô´´úÂëÎÄ¼şµ½Ô­Ê¼×´Ì¬..."
+    Write-Host "5. æ­£åœ¨æ¢å¤æºä»£ç æ–‡ä»¶åˆ°åŸå§‹çŠ¶æ€..."
     foreach ($file in $SourceFilesToModify) {
         if ($BackupFiles.ContainsKey($file)) {
             restore_file $file $BackupFiles[$file]
         }
     }
     if (-not $Global:ErrorOccurred) {
-        Write-Host "Ô´´úÂë»Ö¸´Íê³É¡£" -ForegroundColor Green
+        Write-Host "æºä»£ç æ¢å¤å®Œæˆã€‚" -ForegroundColor Green
         Write-Host ""
         Write-Host "=======================================================" -ForegroundColor Green
-        Write-Host "? ¹§Ï²£¡InteractiveHtmlBom CLI ´ò°ü³É¹¦£¡" -ForegroundColor Green
-        Write-Host "EXE ÎÄ¼şÎ»ÓÚ dist\generate_interactive_bom\generate_interactive_bom.exe" -ForegroundColor Green
+        Write-Host "? æ­å–œï¼InteractiveHtmlBom CLI æ‰“åŒ…æˆåŠŸï¼" -ForegroundColor Green
+        Write-Host "EXE æ–‡ä»¶ä½äº dist\generate_interactive_bom\generate_interactive_bom.exe" -ForegroundColor Green
         Write-Host "=======================================================" -ForegroundColor Green
     }
 }

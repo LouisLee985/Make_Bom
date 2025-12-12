@@ -13,34 +13,27 @@ if %errorlevel% neq 0 (
 
 :: ====================== 配置区 ======================
 set "EXE_FILE=generate_interactive_bom.exe"
-set "PROG_ID=InteractiveBom.Json"
 set "MENU_NAME=open_with_interactivebom"
-set "MENU_TEXT=InteractiveBOM"
+set "MENU_TEXT=InteractiveBom"
 :: ====================================================
 
 set "EXE_PATH=%~dp0%EXE_FILE%"
 
-echo 正在为 .json 文件添加右键菜单：%MENU_TEXT%
+:: 主键路径：HKEY_CLASSES_ROOT\SystemFileAssociations\.json\shell
+set "BASE_KEY=HKEY_CLASSES_ROOT\SystemFileAssociations\.json"
+set "MENU_KEY=%BASE_KEY%\shell\%MENU_NAME%"
 
-:: 1. 设置 .json 的默认 ProgID（推荐用独特名称，避免和其他软件冲突）
-REG ADD "HKEY_CLASSES_ROOT\.json" /ve /t REG_SZ /d "%PROG_ID%" /f >nul
-
-:: 2. 创建 ProgID 主键
-REG ADD "HKEY_CLASSES_ROOT\%PROG_ID%" /f >nul
-REG ADD "HKEY_CLASSES_ROOT\%PROG_ID%\shell" /f >nul
-
-:: 3. 创建右键菜单项
-set "MENU_KEY=HKEY_CLASSES_ROOT\%PROG_ID%\shell\%MENU_NAME%"
+:: 1. 创建 shell 和菜单项键（如果不存在）
+REG ADD "%BASE_KEY%\shell" /f >nul 2>&1
 REG ADD "%MENU_KEY%" /ve /t REG_SZ /d "%MENU_TEXT%" /f >nul
 
-:: 可选：加个小图标（推荐）
+:: 2. 添加图标
 REG ADD "%MENU_KEY%" /v "Icon" /t REG_SZ /d "\"%EXE_PATH%\",0" /f >nul
 
-:: 可选：按住 Shift 才显示（去掉则始终显示）
-:: 删除下面这行就会一直显示在右键菜单，而不是只有按 Shift 才出现
+:: 3. Shift+右键显示
 REG ADD "%MENU_KEY%" /v "Extended" /t REG_SZ /d "" /f >nul
 
-:: 4. 设置执行命令
+:: 4. 设置命令
 set "COMMAND_KEY=%MENU_KEY%\command"
 REG ADD "%COMMAND_KEY%" /ve /t REG_SZ /d "\"%EXE_PATH%\" \"%%1\"" /f >nul
 

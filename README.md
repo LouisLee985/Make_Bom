@@ -12,12 +12,10 @@ For [EasyEDA Std Edition](https://easyeda.com/) Windows
 > git clone --recurse-submodules https://github.com/LouisLee985/Make_Bom.git
 > ```
 
-* Double click [rightclick.bat]()
 
-* Right click&emsp; *.json from EasyEDA Std Edition,&emsp;open with makebom.bat
 <br>
 
-* Perhaps
+* Perhaps PowerShell
 > ```shell
 > $Env:http_proxy="http://127.0.0.1:10808"
 > ```

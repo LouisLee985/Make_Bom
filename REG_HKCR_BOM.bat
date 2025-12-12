@@ -2,6 +2,8 @@
 setlocal enabledelayedexpansion
 
 :: 检查管理员权限
+:: net file 1>NUL 2>NUL || powershell Start-Process -FilePath cmd.exe -ArgumentList """/c pushd %~dp0 && %~s0 %*""" -Verb RunAs -WindowStyle Hidden
+
 net session >nul 2>&1
 if %errorlevel% neq 0 (
     echo 正在请求管理员权限...
@@ -44,8 +46,7 @@ REG ADD "%COMMAND_KEY%" /ve /t REG_SZ /d "\"%EXE_PATH%\" \"%%1\"" /f >nul
 
 echo.
 echo ========================================
-echo   右键菜单添加成功！
-echo   在任意 .json 文件上右键即可看到：
+echo    .json 文件Shift+右键 即可看到：
 echo   → %MENU_TEXT%
 echo ========================================
 echo.

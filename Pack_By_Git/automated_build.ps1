@@ -456,6 +456,7 @@ Write-Host "4. 正在执行 PyInstaller 打包 (使用 --onedir)..."
 $PyInstallerArgs = @(
     "--noconfirm",
     "--onedir", # 切换为单目录模式
+    "--icon", "bomicon.ico",
     # 解决 ModuleNotFoundError 的关键
     "--hidden-import", "InteractiveHtmlBom.core",
     "--hidden-import", "InteractiveHtmlBom.ecad",

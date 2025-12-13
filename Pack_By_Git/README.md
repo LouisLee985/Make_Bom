@@ -14,4 +14,8 @@ pip install pyinstaller
 ```
 git clone --recurse-submodules https://github.com/openscopeproject/InteractiveHtmlBom.git
 ```
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser Bypass -Force
+```
+<br>
 `automated_build.ps1` must be change to ANSI

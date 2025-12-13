@@ -14,3 +14,4 @@ pip install pyinstaller
 ```
 git clone --recurse-submodules https://github.com/openscopeproject/InteractiveHtmlBom.git
 ```
+`automated_build.ps1` must be change to ANSI

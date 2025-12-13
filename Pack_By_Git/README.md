@@ -1,6 +1,4 @@
 ﻿* Install [Python](https://www.python.org/downloads)
-<br>
-
 ```cmd
 set "http_proxy=http://192.168.10.103:10810"
 set "https_proxy=http://192.168.10.103:10810"
@@ -17,5 +15,5 @@ git clone --recurse-submodules https://github.com/openscopeproject/InteractiveHt
 ```powershell
 Set-ExecutionPolicy -Scope CurrentUser Bypass -Force
 ```
-<br>
-`automated_build.ps1` must be change to ANSI
+
+ * `automated_build.ps1` must be changed to ANSI.
